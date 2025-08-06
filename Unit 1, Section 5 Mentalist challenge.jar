@@ -1,0 +1,21 @@
+import java.util.Random; // PRNG  needed for program to generate nums
+import java.util.Scanner; // Needed for reading user input
+
+//begin class 
+public class Mentalism {
+    public static void main(String[] args) {
+        // Create PRNG
+        Random randomGenerator = new Random();
+        final int maxValue = 5;
+        final int minValue = 1;
+        // Generate random number in range from 1 to 5
+        int numberToGuess = randomGenerator.nextInt(maxValue) + minValue;
+        int numberToAdd = numberToGuess * 2;
+        // Scanner named keyboardInput used to read input
+        Scanner keyboardInput = new Scanner(System.in);
+        int numberToGuess = randomGenerator.nextInt(maxValue) + minValue;
+        int numberToAdd = numberToGuess * 2;
+        // Scanner named keyboardInput used to read input
+        Scanner keyboardInput = new Scanner(System.in);
+    }
+}
