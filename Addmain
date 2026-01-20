@@ -1,0 +1,18 @@
+public class PeopleCounter {
+  private long count = 0;
+
+  public void anotherOne() {
+    count++;
+    System.out.println("So far " + count);
+  }
+
+  // Define main right here
+  public static void main(String[] args) {
+    // 1. Create the object (The Instance)
+    PeopleCounter myCounter = new PeopleCounter();
+
+    // 2. Call the method on that object
+    myCounter.anotherOne(); // prints "So far 1"
+    myCounter.anotherOne(); // prints "So far 2"
+  }
+}
