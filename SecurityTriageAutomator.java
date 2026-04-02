@@ -1,73 +1,111 @@
-// Import the Scanner class from the java.util package.
-// This allows the program to read input typed by the user on their keyboard.
+// Import the Scanner class to enable reading input from the Security person
 import java.util.Scanner;
 
 public class SecurityTriageAutomator {
 
-    // The 'main' method is the starting point of any Java application.
-    // When the program runs, it executes the code inside this block first.
+    // Main method defined per java requirements
     public static void main(String[] args) {
 
-        // Create a new Scanner object named 'inputReader'.
-        // We will use this tool to capture what the security analyst types.
+        // Using scanner object to capture user input
         Scanner inputReader = new Scanner(System.in);
 
-        // --- STEP 1: GATHERING DATA ---
+        // Gather common details used for all events
+        // These details are needed for every incident, so we ask them first
+        System.out.println("--- Triage Process Start ---");
         
-        // Print a welcome message and prompt the user for the first piece of information.
-        System.out.println("--- M365 Defender Alert Triage System ---");
-        System.out.println("Enter the Event Type (e.g., Unfamiliar sign-in, Routine Sync):");
-        // Read the line of text the user types and store it in a variable called 'eventType'
+        System.out.print("Please provide your name: ");
+        // Print statement for user data input and store user input to variable
+        String responderName = inputReader.nextLine();
+
+        System.out.print("Please input the current date and time: ");
+        // Print statement for user data input and store user input to variable
+        String timeDate = inputReader.nextLine();
+
+        // Determine type of Security Incident
+        System.out.print("Enter the Event Type (e.g., Unfamiliar Sign-in, Malware Detected): ");
+        // Print statement for user data input and store user input to variable
         String eventType = inputReader.nextLine();
-
-        // Prompt the user for the Application ID.
-        System.out.println("Enter the Application ID:");
-        // Store the typed text in a variable called 'appId'
-        String appId = inputReader.nextLine();
-
-        // Prompt the user for the alert severity.
-        System.out.println("Enter the Severity (Low, Medium, High):");
-        // Store the typed text in a variable called 'severity'
-        String severity = inputReader.nextLine();
-
-        System.out.println("\n--- Analyzing Alert Data ---");
-
-        // --- STEP 2: EVALUATING LOGIC ---
         
-        // We use an 'if/else' statement to make decisions based on the data.
-        // We use '.equalsIgnoreCase' so the program doesn't break if the user types "low" instead of "Low".
 
-        // Condition A: Check if this is a high-risk event type.
-        if (eventType.equalsIgnoreCase("Unfamiliar sign-in")) {
-            // If true, execute this block of code and skip the rest.
-            System.out.println("Action: Manual Review required.");
-            System.out.println("Reason: Potential compromised credentials detected.");
+        // --- CONDITIONAL LOGIC ---
+        // The program uses if/else statements to route the analyst to the correct questions.
+        // We use .equalsIgnoreCase() so it accepts inputs like "malware detected" or "Malware Detected".
+
+        // PATH 1: If the event is an Unfamiliar Sign-in, execute this block
+        if (eventType.equalsIgnoreCase("Unfamiliar Sign-in")) {
+
+            System.out.print("Please provide the user's username: ");
+            String username = inputReader.nextLine();
+
+            System.out.print("Have you reviewed the sign-in logs for malicious users for activity from countries which the user has not signed in from in the last 30 days? (Yes/No): ");
+            String signInReview = inputReader.nextLine();
+
+            System.out.print("Does the IP address in question show as malicious in known bad IP address engines such as Virus Total? (Yes/No): ");
+            String vtIpVerdict = inputReader.nextLine();
+
+            System.out.print("Please provide the IP address associated with the sign-ins: ");
+            String ipAddress = inputReader.nextLine();
+
+            System.out.print("Have you reset the user's password? (Yes/No): ");
+            String userPwReset = inputReader.nextLine();
+
+            System.out.print("Please provide any details for why 'no' was provided for any of the questions or any step which was not followed: ");
+            String notes = inputReader.nextLine();
+
+            // Output the final Incident Report for the Sign-in event
+            System.out.println("\n--- INCIDENT REPORT ---");
+            System.out.println("Incident Responder: " + responderName);
+            System.out.println("Time and date: " + timeDate);
+            System.out.println("Username of user: " + username);
+            System.out.println("Sign in logs reviewed: " + signInReview);
+            System.out.println("IP address documented: " + vtIpVerdict + " (" + ipAddress + ")");
+            System.out.println("Have you reset the user's password: " + userPwReset);
+            System.out.println("Additional information provided: " + notes);
+
         } 
-        
-        // Condition B: Check if this matches our exact parameters for safe automation.
-        // The '&&' means BOTH conditions must be true: Severity must be Low AND App ID must be App_774.
-        else if (severity.equalsIgnoreCase("Low") && appId.equalsIgnoreCase("App_774")) {
-            // If true, execute this block. This automates the closing of low-level, known events.
-            System.out.println("Action: Auto-Close in Security Center.");
-            System.out.println("Reason: Known trusted application generating low severity telemetry.");
+        // PATH 2: If the event is Malware Detected, skip the sign-in block and execute this block
+        else if (eventType.equalsIgnoreCase("Malware Detected")) {
+
+            System.out.print("Please provide the user's username: ");
+            String username = inputReader.nextLine();
+
+            System.out.print("Please provide the user's machine name: ");
+            String machineName = inputReader.nextLine();
+
+            System.out.print("Have you issued a scan of the machine with all scan settings enabled? (Yes/No): ");
+            String scanRun = inputReader.nextLine();
+
+            System.out.print("Have all malicious files been quarantined? (Yes/No): ");
+            String maliciousFiles = inputReader.nextLine();
+
+            System.out.print("If malicious files haven’t been removed, isolate the device immediately and inform Security Leadership to activate the incident response plan. (Acknowledged/Isolated): ");
+            String deviceIsolated = inputReader.nextLine();
+
+            System.out.print("Please provide any details for why 'no' was provided for any of the questions or any step which was not followed: ");
+            String notes = inputReader.nextLine();
+
+            // Output the final Incident Report for the Malware event
+            System.out.println("\n--- INCIDENT REPORT ---");
+            System.out.println("Incident Responder: " + responderName);
+            System.out.println("Time and date: " + timeDate);
+            System.out.println("Username of user: " + username);
+            System.out.println("Machine name: " + machineName);
+            System.out.println("Scan issued: " + scanRun);
+            System.out.println("Files quarantined: " + maliciousFiles);
+            System.out.println("Device isolation status: " + deviceIsolated);
+            System.out.println("Additional information provided: " + notes);
+
         } 
-        
-        // Condition C: Catch-all for high severity alerts that need escalation.
-        else if (severity.equalsIgnoreCase("High")) {
-            System.out.println("Action: Manual Review required - Escalate to Tier 2.");
-            System.out.println("Reason: High severity alerts cannot be automated.");
-        } 
-        
-        // Condition D: The default action if none of the above specific scenarios are met.
+        // PATH 3: Error handling - if the input does not match either supported event type
         else {
-            System.out.println("Action: Manual Review required.");
-            System.out.println("Reason: Alert does not match standard auto-close parameters. Analyst investigation needed.");
+            System.out.println("Error: Event type not recognized.");
+            System.out.println("Please restart the program and enter either 'Unfamiliar Sign-in' or 'Malware Detected'.");
         }
 
-        // --- STEP 3: CLEANUP ---
-        
-        // Close the scanner object to free up system memory, which is a programming best practice.
+        // --- CLEANUP ---
+        // Close the scanner object to free up system resources, a standard Java best practice
         inputReader.close();
-        System.out.println("--- Triage Complete ---");
+        
+        System.out.println("\n--- Triage Complete ---");
     }
 }
